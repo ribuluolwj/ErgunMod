@@ -53,6 +53,8 @@ int main()
   double *DeltaPs = new double[dPNum];
   double *v0s = new double[dPNum];
   double *C0s = new double[dPNum];
+  MatPlotInit();
+  show_control();
   for (int i = 1; i < dPNum+1; i++)
   {
     DeltaPs[i-1] = Pin - i * 5000.0;
@@ -60,14 +62,18 @@ int main()
     v0s[i-1] = (-B0 + sqrt(B0 * B0 - 4 * A0 * C0s[i-1])) / (2 * A0);
     std::cout << "DeltaP " << i << ":" << DeltaPs[i - 1] << "\t" << "v0 " << ":" << v0s[i - 1] << endl;
   }
-//  double x[5]{ 1,2,3,4,5 };
-//	double y[5]{ 1,3,2,4,3 };
-//	int N{ 5 };
-  MatPlotInit();
-//  plot(DeltaPs, v0s, dPNum, 'r');
-  plot(DeltaPs, v0s, dPNum);
-// // plot(x, y, N, 'r');
-  Sleep(60000);
+  plot(DeltaPs, v0s, dPNum, 'r');
+  e0 = 0.4;
+  for (int i = 1; i < dPNum+1; i++)
+  {
+    DeltaPs[i-1] = Pin - i * 5000.0;
+    C0s[i-1] = - DeltaPs[i-1] / L;
+    v0s[i-1] = (-B0 + sqrt(B0 * B0 - 4 * A0 * C0s[i-1])) / (2 * A0);
+    std::cout << "DeltaP " << i << ":" << DeltaPs[i - 1] << "\t" << "v0 " << ":" << v0s[i - 1] << endl;
+  }
+  plot(DeltaPs, v0s, dPNum, 'g');
+
+  Sleep(600000);
   MatPlotClose();
   delete[] DeltaPs;
   delete[] v0s;
