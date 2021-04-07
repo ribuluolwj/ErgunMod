@@ -18,6 +18,12 @@
     <ClCompile Include="Src\ErgunMod.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Src\eggplot.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\linespec.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\MatPlot.h">

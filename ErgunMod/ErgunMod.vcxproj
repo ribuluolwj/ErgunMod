@@ -81,7 +81,8 @@
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>G:\NewCode\ErgunMod\ErgunMod\Lib;$(LibraryPath)</LibraryPath>
     <SourcePath>G:\NewCode\ErgunMod\ErgunMod\Src;$(SourcePath)</SourcePath>
-    <ReferencePath>G:\NewCode\ErgunMod\ErgunMod\Src;$(ReferencePath)</ReferencePath>
+    <ReferencePath>G:\NewCode\ErgunMod\ErgunMod\include;G:\NewCode\ErgunMod\ErgunMod\Src;$(ReferencePath)</ReferencePath>
+    <IncludePath>G:\NewCode\ErgunMod\ErgunMod\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -145,7 +146,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\eggplot.cpp" />
     <ClCompile Include="Src\ErgunMod.cpp" />
+    <ClCompile Include="Src\linespec.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\MatPlot.h" />
