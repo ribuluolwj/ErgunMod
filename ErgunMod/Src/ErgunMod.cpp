@@ -21,6 +21,7 @@ int main()
     double k1 = 150.0;
     double k2 = 1.75;
     double D0 = 6.0e-3; // m
+    double Es = 1200; //Pa
     // 设置流体介质物性参数
     /*---------------------------------------------------------------------------
     rhoL -- 流体密度    mu -- 流体动力粘度    u0 -- 流体初始表征速度
@@ -34,8 +35,8 @@ int main()
     double Pin = 101325.0; // Pa
     double Pout = 71325.0; // Pa
     double DeltaP = Pin - Pout; // Pa
-    double v0, u0, vx, ut, px;
-    // 设置方程中间变量
+    double v0, u0, vx, ut, px, v1, u1;
+    // 设置原始Ergun方程中间变量
     /*---------------------------------------------------------------------------
     phi0 -- (1+e0)/e0    A0 -- 原始Ergun方程二次项系数
     B0 -- 原始Ergun方程一次项系数    C0 -- 原始Ergun方程常数项
@@ -44,40 +45,63 @@ int main()
     double A0 = k2 * phi0 * rhoL / D0 / g;
     double B0 = k1 * phi0 * phi0 * mu / (D0 * D0) / g;
     double C0 = -DeltaP / L;
+    // 设置弹性修正Ergun方程中间变量
+    /*---------------------------------------------------------------------------
+    phi0 -- (1+e0)/e0    A0 -- 弹性修正Ergun方程二次项系数
+    B0 -- 弹性修正Ergun方程一次项系数    C0 -- 弹性修正Ergun方程常数项
+    ---------------------------------------------------------------------------*/
+    double phi1 = (1 + e0) / (e0 - DeltaP / Es);
+    double A1 = k2 * phi0 * rhoL / D0 / g;
+    double B1 = k1 * phi0 * phi0 * mu / (D0 * D0) / g / (1- DeltaP / Es);
+    double C1 = -DeltaP / L;
+
     // 计算原始Ergun方程
     v0 = (-B0 + sqrt(B0 * B0 - 4 * A0 * C0)) / (2 * A0);
-    std::cout << v0 << "\t" << "m/s" << endl;
+    // 计算弹性修正Ergun方程
+    v1 = (-B1 + sqrt(B1 * B1 - 4 * A1 * C1)) / (2 * A1);
+
+    std::cout << "v0:  " << v0 << "\t" << "v1:  " << v1 << "\t" << "m/s" << endl;
     // 计算v0-deltaP关系
     int dPNum; // delta pressure data points number
     int e0Num; // e0 number
     dPNum = 14;
     e0Num = 9;
     std::vector<double>DeltaPs;
-    std::vector<double>v0s;
-    std::vector<double>C0s;
+    std::vector<double>v0s,v1s;
+    std::vector<double>C0s,C1s;
     double* phi0s = new double[e0Num];
+    double* phi1s = new double[e0Num];
 
+    eggp::Eggplot curvePlot(SCREEN|PNG);
+
+    curvePlot.xlabel("{/Symbol D}P");
+    curvePlot.ylabel("v_0");
+    curvePlot.grid(true);
     for (int j = 1; j < e0Num + 1; j++)
     {
         double e0s = 0.1 + 0.1 * j;
         phi0s[j-1] = (1 + e0s) / e0s;
         double A0s = k2 * phi0s[j-1] * rhoL / D0 / g;
         double B0s = k1 * phi0s[j-1] * phi0s[j-1] * mu / (D0 * D0) / g;
+
         for (int i = 1; i < dPNum + 1; i++)
         {
             DeltaPs.push_back(Pin - i * 5000.0);
             C0s.push_back(-DeltaPs[i - 1] / L);
             v0s.push_back((-B0s + sqrt(B0s * B0s - 4 * A0s * C0s[i - 1])) / (2 * A0s));
-            std::cout << "DeltaP " << i << ":" << DeltaPs[i - 1] << "\t" << "v0 " << ":" << v0s[i - 1] << endl;
+
+            phi1s[j-1] = (1 + e0s) / (e0s - DeltaPs[i-1] / Es);
+            double A1s = k2 * phi1s[j-1] * rhoL / D0 / g;
+            double B1s = k1 * phi1s[j-1] * phi1s[j-1] * mu / (D0 * D0) / g / (1- DeltaPs[i-1]/ Es);
+            C1s.push_back(-DeltaPs[i - 1] / L);
+            v1s.push_back((-B1s - sqrt(B1s * B1s - 4 * A1s * C1s[i - 1])) / (2 * A1s));
+            std::cout << "DeltaP " << i << ":  " << DeltaPs[i - 1] << "\t" << "v0 " << ":  " 
+                      << v0s[i - 1] << "\t" << "v1 " << ":  " << v1s[i - 1] << endl;
         }
     }
-    eggp::Eggplot curvePlot(SCREEN|PNG);
-    curvePlot.xlabel("{/Symbol D}P");
-    curvePlot.ylabel("v_0");
-    curvePlot.plot({ DeltaPs,v0s });
-    curvePlot.legend({ "{/Symbol 1}=1",
-                       "{/Symbol 1}=4" });
-    curvePlot.grid(true);
+    curvePlot.plot({ DeltaPs, v0s, DeltaPs, v1s });
+    //curvePlot.legend({ "{/Symbol 1}=1",
+    //                   "{/Symbol 1}=4" });
     curvePlot.exec();
     Sleep(60000);
     delete[] phi0s;
