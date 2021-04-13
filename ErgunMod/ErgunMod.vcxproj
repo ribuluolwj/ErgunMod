@@ -79,10 +79,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>G:\NewCode\ErgunMod\ErgunMod\Lib;$(LibraryPath)</LibraryPath>
-    <SourcePath>G:\NewCode\ErgunMod\ErgunMod\Src;$(SourcePath)</SourcePath>
-    <ReferencePath>G:\NewCode\ErgunMod\ErgunMod\include;G:\NewCode\ErgunMod\ErgunMod\Src;$(ReferencePath)</ReferencePath>
-    <IncludePath>G:\NewCode\ErgunMod\ErgunMod\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\RPgit\CODE\ErgunMod\ErgunMod\Lib;G:\NewCode\ErgunMod\ErgunMod\Lib;$(LibraryPath)</LibraryPath>
+    <SourcePath>D:\RPgit\CODE\ErgunMod\ErgunMod\Src;G:\NewCode\ErgunMod\ErgunMod\Src;$(SourcePath)</SourcePath>
+    <ReferencePath>D:\RPgit\CODE\ErgunMod\ErgunMod\include;G:\NewCode\ErgunMod\ErgunMod\include;G:\NewCode\ErgunMod\ErgunMod\Src;$(ReferencePath)</ReferencePath>
+    <IncludePath>D:\RPgit\CODE\ErgunMod\ErgunMod\include;G:\NewCode\ErgunMod\ErgunMod\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

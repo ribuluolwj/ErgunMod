@@ -45,8 +45,8 @@ int main()
     ---------------------------------------------------------------------------*/
     double L1 = (1- DeltaP / Es) * L0; // m
     double e1 = 1 - (1 - e0) * L0 / L1;
-    double k1 = 150.0;
-    double k2 = 1.75;
+//    double k1 = 150.0;
+//    double k2 = 1.75;
     double D1 = D0 * L1 / L0; // m
 
     // 设置原始Ergun方程中间变量
@@ -113,7 +113,7 @@ int main()
         {
             DeltaPs.push_back(Pin - i * 5000.0);
 
-            C0s.push_back(-DeltaPs[i - 1] / L);
+            C0s.push_back(-DeltaPs[i - 1] / L0);
             v0s.push_back((-B0s + sqrt(B0s * B0s - 4 * A0s * C0s[i - 1])) / (2 * A0s));
 
             double L1s = (1- DeltaPs[i-1] / Es) * L0; 
