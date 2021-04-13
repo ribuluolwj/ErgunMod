@@ -6,8 +6,6 @@ set output 'eggp-export.png'
 set grid lc rgb '#cccccc' lw 1 lt 3
 set style line 1 lt 1 lw 1 pt 1 ps 1 lc rgb '#f00032'
 set style line 2 lt 1 lw 1 pt 2 ps 1 lc rgb '#227500'
-set style line 3 lt 1 lw 1 pt 3 ps 1 lc rgb '#1a3bea'
-set style line 4 lt 1 lw 1 pt 4 ps 1 lc rgb '#e700f0'
 set style increment userstyle
 set autoscale
 unset log
@@ -17,4 +15,4 @@ set ytic auto
 set title ""
 set xlabel "{/Symbol D}P"
 set ylabel "v"
-plot 'eggp.dat' index 0 title '1' with linespoints, 'eggp.dat' index 1 title '2' with linespoints, 'eggp.dat' index 2 title '3' with linespoints, 'eggp.dat' index 3 title '4' with linespoints, 
+plot 'eggp.dat' index 0 title '1' with linespoints, 'eggp.dat' index 1 title '2' with linespoints, 

@@ -92,8 +92,8 @@ int main()
     int e0Num; // e0 number
     dPNum0 = 14;
     e0Num = 4;
-    std::vector<std::vector<double> >DeltaPs(e0Num, std::vector<double>(dPNum0));
-    std::vector<std::vector<double> >v0s(e0Num, std::vector<double>(dPNum0));
+    std::vector<std::vector<double> >DeltaPs0(e0Num, std::vector<double>(dPNum0));
+    std::vector<std::vector<double> >v0s0(e0Num, std::vector<double>(dPNum0));
     std::vector<double>C0s(dPNum0);
     double* phi0s = new double[e0Num];
 
@@ -110,27 +110,27 @@ int main()
 
         for (int j = 1; j < dPNum0 + 1; j++)
         {
-            DeltaPs[i - 1][j - 1] = Pin - j * 5000.0;
-            C0s[j - 1] = -DeltaPs[i - 1][j - 1] / L0;
-            v0s[i - 1][j - 1] = ((-B0s + sqrt(B0s * B0s - 4 * A0s * C0s[j - 1])) / (2 * A0s));
-            std::cout << "e0:  " << e0s << "\t" << "DeltaP " << j << ":  " << DeltaPs[i - 1][j - 1] << "\t" << "v0 " << ":  " 
-                      << v0s[i - 1][j - 1] <<  endl;
+            DeltaPs0[i - 1][j - 1] = Pin - j * 5000.0;
+            C0s[j - 1] = -DeltaPs0[i - 1][j - 1] / L0;
+            v0s0[i - 1][j - 1] = ((-B0s + sqrt(B0s * B0s - 4 * A0s * C0s[j - 1])) / (2 * A0s));
+            std::cout << "e0:  " << e0s << "\t" << "DeltaP " << j << ":  " << DeltaPs0[i - 1][j - 1] << "\t" << "v0 " << ":  " 
+                      << v0s0[i - 1][j - 1] <<  endl;
         }
     }
-    curvePlot0.plot({ DeltaPs[0], v0s[0], DeltaPs[1], v0s[1], DeltaPs[2], v0s[2], DeltaPs[3], v0s[3]});
+    curvePlot0.plot({ DeltaPs0[0], v0s0[0], DeltaPs0[1], v0s0[1], DeltaPs0[2], v0s0[2], DeltaPs0[3], v0s0[3]});
     //curvePlot0.legend({ "{/Symbol 1}=1",
     //                   "{/Symbol 1}=4" });
     curvePlot0.exec();
-//    DeltaPs.erase(DeltaPs.begin(), DeltaPs.end());
-//    v0s.erase(v0s.begin(), v0s.end());
-//    DeltaPs.clear();
-//    v0s.clear();
+    DeltaPs0.clear();
+    v0s0.clear();
 
     // 计算v0-v1-deltaP关系
     int dPNum1; // delta pressure data points number
     int e1Num; // e0 number
     dPNum1 = 14;
     e1Num = 4;
+    std::vector<std::vector<double> >DeltaPs1(e1Num, std::vector<double>(dPNum1));
+    std::vector<std::vector<double> >v0s1(e1Num, std::vector<double>(dPNum1));
     std::vector<std::vector <double>>v1s(e1Num, std::vector<double>(dPNum1));
     std::vector<double>C1s(dPNum1);
     double* phi1s = new double[e1Num];
@@ -141,32 +141,33 @@ int main()
     curvePlot1.grid(true);
     for (int i = 1; i < e1Num + 1; i++)
     {
-        double e0s = 0.1 + 0.1 * i;
+        double e0s = 0.1 + 0.2 * i;
         phi0s[i - 1] = (1 + e0s) / e0s;
         double A0s = k2 * phi0s[i - 1] * rhoL / D0 / g;
         double B0s = k1 * phi0s[i - 1] * phi0s[i - 1] * mu / (D0 * D0) / g;
 
         for (int j = 1; j < dPNum1 + 1; j++)
         {
-            DeltaPs[i - 1][j - 1] = (Pin - j * 5000.0);
+            DeltaPs1[i - 1][j - 1] = (Pin - j * 5000.0);
 
-            C0s[j - 1] = (-DeltaPs[i - 1][j - 1] / L0);
-            v0s[i - 1][j - 1] = ((-B0s + sqrt(B0s * B0s - 4 * A0s * C0s[j - 1])) / (2 * A0s));
+            C0s[j - 1] = (-DeltaPs1[i - 1][j - 1] / L0);
+            v0s1[i - 1][j - 1] = ((-B0s + sqrt(B0s * B0s - 4 * A0s * C0s[j - 1])) / (2 * A0s));
 
-            double L1s = (1- DeltaPs[i - 1][j - 1] / Es) * L0; 
+            double L1s = (1- DeltaPs1[i - 1][j - 1] / Es) * L0; 
             double e1s = 1 - (1 - e0s) * L0 / L1s;
             double D1s =  D0 * L1s / L0;
 
             phi1s[i - 1] = (1 + e1s) / e1s;
             double A1s = k2 * phi1s[i - 1] * rhoL / D1s / g;
             double B1s = k1 * phi1s[i - 1] * phi1s[i - 1] * mu / (D1s * D1s) / g;
-            C1s[j - 1] = (-DeltaPs[i - 1][j - 1] / L1s);
+            C1s[j - 1] = (-DeltaPs1[i - 1][j - 1] / L1s);
             v1s[i - 1][j - 1] = ((-B1s - sqrt(B1s * B1s - 4 * A1s * C1s[j - 1])) / (2 * A1s));
-            std::cout << "e0:  " << e0s << "\t" << "DeltaP " << j << ":  " << DeltaPs[i - 1][j - 1] << "\t" << "v0 " << ":  " 
-                      << v0s[i - 1][j - 1] << "\t" << "v1 " << ":  " << v1s[i - 1][j - 1] << endl;
+            std::cout << "e0:  " << e0s << "\t" << "DeltaP " << j << ":  " << DeltaPs1[i - 1][j - 1] << "\t" << "v0 " << ":  " 
+                      << v0s1[i - 1][j - 1] << "\t" << "v1 " << ":  " << v1s[i - 1][j - 1] << endl;
         }
     }
-    curvePlot1.plot({ DeltaPs[0], v0s[0], DeltaPs[0], v1s[0], DeltaPs[1], v0s[1], DeltaPs[1], v1s[1] });
+    //curvePlot1.plot({ DeltaPs1[0], v0s1[0], DeltaPs1[0], v1s[0], DeltaPs1[1], v0s1[1], DeltaPs1[1], v1s[1], DeltaPs1[2], v0s1[2], DeltaPs1[2], v1s[2] });
+    curvePlot1.plot({ DeltaPs1[0], v0s1[0], DeltaPs1[0], v1s[0] });
     curvePlot1.exec();
 
 
