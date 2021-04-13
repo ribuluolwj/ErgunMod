@@ -90,7 +90,7 @@ int main()
     int dPNum; // delta pressure data points number
     int e0Num; // e0 number
     dPNum = 14;
-    e0Num = 9;
+    e0Num = 4;
     std::vector<double>DeltaPs;
     std::vector<double>v0s,v1s;
     std::vector<double>C0s,C1s;
@@ -104,7 +104,7 @@ int main()
     curvePlot.grid(true);
     for (int j = 1; j < e0Num + 1; j++)
     {
-        double e0s = 0.1 + 0.1 * j;
+        double e0s = 0.1 + 0.2 * j;
         phi0s[j-1] = (1 + e0s) / e0s;
         double A0s = k2 * phi0s[j-1] * rhoL / D0 / g;
         double B0s = k1 * phi0s[j-1] * phi0s[j-1] * mu / (D0 * D0) / g;
