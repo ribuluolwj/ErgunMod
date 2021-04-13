@@ -105,7 +105,6 @@ int main()
     for (int j = 1; j < e0Num + 1; j++)
     {
         double e0s = 0.1 + 0.1 * j;
-        double e1s = 1 - (1 - e0) * L0 / L1;
         phi0s[j-1] = (1 + e0s) / e0s;
         double A0s = k2 * phi0s[j-1] * rhoL / D0 / g;
         double B0s = k1 * phi0s[j-1] * phi0s[j-1] * mu / (D0 * D0) / g;
@@ -113,14 +112,18 @@ int main()
         for (int i = 1; i < dPNum + 1; i++)
         {
             DeltaPs.push_back(Pin - i * 5000.0);
+
             C0s.push_back(-DeltaPs[i - 1] / L);
             v0s.push_back((-B0s + sqrt(B0s * B0s - 4 * A0s * C0s[i - 1])) / (2 * A0s));
 
-            phi1s[j-1] = (1 + e0s) / (e0s - DeltaPs[i - 1] / Es);
+            double L1s = (1- DeltaPs[i-1] / Es) * L0; 
+            double e1s = 1 - (1 - e0s) * L0 / L1s;
+
+            phi1s[j-1] = (1 + e1s) / e1s;
             double A1s = k2 * phi1s[j - 1] * rhoL / D0 / g;
-            double B1s = k1 * phi1s[j - 1] * phi1s[j-1] * mu / (D0 * D0) / g / (1- DeltaPs[i - 1]/ Es);
-            C1s.push_back(-DeltaPs[i - 1] / L);
-            v1s.push_back((-B1s - sqrt(B1s * B1s - 4 * A1s * C1s[i - 1])) / (2 * A1s));
+            double B1s = k1 * phi1s[j - 1] * phi1s[j-1] * mu / (D0 * D0) / g;
+            C1s.push_back(-DeltaPs[i - 1] / L1s);
+            v1s.push_back((-B1s + sqrt(B1s * B1s - 4 * A1s * C1s[i - 1])) / (2 * A1s));
             std::cout << "DeltaP " << i << ":  " << DeltaPs[i - 1] << "\t" << "v0 " << ":  " 
                       << v0s[i - 1] << "\t" << "v1 " << ":  " << v1s[i - 1] << endl;
         }
