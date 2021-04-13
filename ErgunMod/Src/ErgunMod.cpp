@@ -83,57 +83,98 @@ int main()
     // 计算弹性修正Ergun方程
     v1 = (-B1 + sqrt(B1 * B1 - 4 * A1 * C1)) / (2 * A1);
     // 计算弹性修正Ergun方程相对变化率
-    double vChange = (v1 - v0) / v0 * 100;
-
+    double vChange = (abs(v1) - v0) / v0 * 100;
     std::cout << "v0:  " << v0 << "\t" << "v1:  " << v1 << "\t" << "m/s" << "\t" << vChange << "\t" << "%" << endl;
-    // 计算v0-deltaP关系
-    int dPNum; // delta pressure data points number
+    // 画图
+
+    // 计算v0-deltaP-e0关系
+    int dPNum0; // delta pressure data points number
     int e0Num; // e0 number
-    dPNum = 14;
+    dPNum0 = 14;
     e0Num = 4;
-    std::vector<double>DeltaPs;
-    std::vector<double>v0s,v1s;
-    std::vector<double>C0s,C1s;
+    std::vector<std::vector<double> >DeltaPs(e0Num, std::vector<double>(dPNum0));
+    std::vector<std::vector<double> >v0s(e0Num, std::vector<double>(dPNum0));
+    std::vector<double>C0s(dPNum0);
     double* phi0s = new double[e0Num];
-    double* phi1s = new double[e0Num];
 
-    eggp::Eggplot curvePlot(SCREEN|PNG);
-
-    curvePlot.xlabel("{/Symbol D}P");
-    curvePlot.ylabel("v_0");
-    curvePlot.grid(true);
-    for (int j = 1; j < e0Num + 1; j++)
+    eggp::Eggplot curvePlot0(SCREEN|PNG);
+    curvePlot0.xlabel("{/Symbol D}P");
+    curvePlot0.ylabel("v_0");
+    curvePlot0.grid(true);
+    for (int i = 1; i < e0Num + 1; i++)
     {
-        double e0s = 0.1 + 0.2 * j;
-        phi0s[j-1] = (1 + e0s) / e0s;
-        double A0s = k2 * phi0s[j-1] * rhoL / D0 / g;
-        double B0s = k1 * phi0s[j-1] * phi0s[j-1] * mu / (D0 * D0) / g;
+        double e0s = 0.1 + 0.2 * i;
+        phi0s[i-1] = (1 + e0s) / e0s;
+        double A0s = k2 * phi0s[i - 1] * rhoL / D0 / g;
+        double B0s = k1 * phi0s[i - 1] * phi0s[i - 1] * mu / (D0 * D0) / g;
 
-        for (int i = 1; i < dPNum + 1; i++)
+        for (int j = 1; j < dPNum0 + 1; j++)
         {
-            DeltaPs.push_back(Pin - i * 5000.0);
-
-            C0s.push_back(-DeltaPs[i - 1] / L0);
-            v0s.push_back((-B0s + sqrt(B0s * B0s - 4 * A0s * C0s[i - 1])) / (2 * A0s));
-
-            double L1s = (1- DeltaPs[i-1] / Es) * L0; 
-            double e1s = 1 - (1 - e0s) * L0 / L1s;
-
-            phi1s[j-1] = (1 + e1s) / e1s;
-            double A1s = k2 * phi1s[j - 1] * rhoL / D0 / g;
-            double B1s = k1 * phi1s[j - 1] * phi1s[j-1] * mu / (D0 * D0) / g;
-            C1s.push_back(-DeltaPs[i - 1] / L1s);
-            v1s.push_back((-B1s + sqrt(B1s * B1s - 4 * A1s * C1s[i - 1])) / (2 * A1s));
-            std::cout << "DeltaP " << i << ":  " << DeltaPs[i - 1] << "\t" << "v0 " << ":  " 
-                      << v0s[i - 1] << "\t" << "v1 " << ":  " << v1s[i - 1] << endl;
+            DeltaPs[i - 1][j - 1] = Pin - j * 5000.0;
+            C0s[j - 1] = -DeltaPs[i - 1][j - 1] / L0;
+            v0s[i - 1][j - 1] = ((-B0s + sqrt(B0s * B0s - 4 * A0s * C0s[j - 1])) / (2 * A0s));
+            std::cout << "e0:  " << e0s << "\t" << "DeltaP " << j << ":  " << DeltaPs[i - 1][j - 1] << "\t" << "v0 " << ":  " 
+                      << v0s[i - 1][j - 1] <<  endl;
         }
     }
-    curvePlot.plot({ DeltaPs, v0s, DeltaPs, v1s });
-    //curvePlot.legend({ "{/Symbol 1}=1",
+    curvePlot0.plot({ DeltaPs[0], v0s[0], DeltaPs[1], v0s[1], DeltaPs[2], v0s[2], DeltaPs[3], v0s[3]});
+    //curvePlot0.legend({ "{/Symbol 1}=1",
     //                   "{/Symbol 1}=4" });
-    curvePlot.exec();
+    curvePlot0.exec();
+//    DeltaPs.erase(DeltaPs.begin(), DeltaPs.end());
+//    v0s.erase(v0s.begin(), v0s.end());
+//    DeltaPs.clear();
+//    v0s.clear();
+
+    // 计算v0-v1-deltaP关系
+    int dPNum1; // delta pressure data points number
+    int e1Num; // e0 number
+    dPNum1 = 14;
+    e1Num = 4;
+    std::vector<std::vector <double>>v1s(e1Num, std::vector<double>(dPNum1));
+    std::vector<double>C1s(dPNum1);
+    double* phi1s = new double[e1Num];
+
+    eggp::Eggplot curvePlot1(SCREEN|PNG);
+    curvePlot1.xlabel("{/Symbol D}P");
+    curvePlot1.ylabel("v");
+    curvePlot1.grid(true);
+    for (int i = 1; i < e1Num + 1; i++)
+    {
+        double e0s = 0.1 + 0.1 * i;
+        phi0s[i - 1] = (1 + e0s) / e0s;
+        double A0s = k2 * phi0s[i - 1] * rhoL / D0 / g;
+        double B0s = k1 * phi0s[i - 1] * phi0s[i - 1] * mu / (D0 * D0) / g;
+
+        for (int j = 1; j < dPNum1 + 1; j++)
+        {
+            DeltaPs[i - 1][j - 1] = (Pin - j * 5000.0);
+
+            C0s[j - 1] = (-DeltaPs[i - 1][j - 1] / L0);
+            v0s[i - 1][j - 1] = ((-B0s + sqrt(B0s * B0s - 4 * A0s * C0s[j - 1])) / (2 * A0s));
+
+            double L1s = (1- DeltaPs[i - 1][j - 1] / Es) * L0; 
+            double e1s = 1 - (1 - e0s) * L0 / L1s;
+            double D1s =  D0 * L1s / L0;
+
+            phi1s[i - 1] = (1 + e1s) / e1s;
+            double A1s = k2 * phi1s[i - 1] * rhoL / D1s / g;
+            double B1s = k1 * phi1s[i - 1] * phi1s[i - 1] * mu / (D1s * D1s) / g;
+            C1s[j - 1] = (-DeltaPs[i - 1][j - 1] / L1s);
+            v1s[i - 1][j - 1] = ((-B1s - sqrt(B1s * B1s - 4 * A1s * C1s[j - 1])) / (2 * A1s));
+            std::cout << "e0:  " << e0s << "\t" << "DeltaP " << j << ":  " << DeltaPs[i - 1][j - 1] << "\t" << "v0 " << ":  " 
+                      << v0s[i - 1][j - 1] << "\t" << "v1 " << ":  " << v1s[i - 1][j - 1] << endl;
+        }
+    }
+    curvePlot1.plot({ DeltaPs[0], v0s[0], DeltaPs[0], v1s[0], DeltaPs[1], v0s[1], DeltaPs[1], v1s[1] });
+    curvePlot1.exec();
+
+
+
+
     Sleep(60000);
     delete[] phi0s;
+    delete[] phi1s;
 
   return 0;
 }
