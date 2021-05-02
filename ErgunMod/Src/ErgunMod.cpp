@@ -43,10 +43,10 @@ int main()
     Es -- 多孔介质弹性模量    D1 -- 初始纤维当量直径
     k1 -- 粘性项系数    k2 -- 惯性项系数
     ---------------------------------------------------------------------------*/
-    double L1 = (1- DeltaP / Es) * L0; // m
+    double L1 = (1 - DeltaP / Es) * L0; // m
     double e1 = 1 - (1 - e0) * L0 / L1;
-//    double k1 = 150.0;
-//    double k2 = 1.75;
+    //    double k1 = 150.0;
+    //    double k2 = 1.75;
     double D1 = D0 * L1 / L0; // m
 
     // 设置原始Ergun方程中间变量
@@ -68,17 +68,17 @@ int main()
     double B1 = k1 * phi1 * phi1 * mu / (D1 * D1) / g;
     double C1 = -DeltaP / L1;
 
-//    // 设置弹性修正Ergun方程中间变量
-//    /*---------------------------------------------------------------------------
-//    phi0 -- (1+e0)/e0    A0 -- 弹性修正Ergun方程二次项系数
-//    B0 -- 弹性修正Ergun方程一次项系数    C0 -- 弹性修正Ergun方程常数项
-//    ---------------------------------------------------------------------------*/
-//    double phi1 = (1 + e0) / (e0 - DeltaP / Es);
-//    double A1 = k2 * phi0 * rhoL / D0 / g;
-//    double B1 = k1 * phi0 * phi0 * mu / (D0 * D0) / g / (1- DeltaP / Es);
-//    double C1 = -DeltaP / L0;
+    //    // 设置弹性修正Ergun方程中间变量
+    //    /*---------------------------------------------------------------------------
+    //    phi0 -- (1+e0)/e0    A0 -- 弹性修正Ergun方程二次项系数
+    //    B0 -- 弹性修正Ergun方程一次项系数    C0 -- 弹性修正Ergun方程常数项
+    //    ---------------------------------------------------------------------------*/
+    //    double phi1 = (1 + e0) / (e0 - DeltaP / Es);
+    //    double A1 = k2 * phi0 * rhoL / D0 / g;
+    //    double B1 = k1 * phi0 * phi0 * mu / (D0 * D0) / g / (1- DeltaP / Es);
+    //    double C1 = -DeltaP / L0;
 
-    // 计算原始Ergun方程
+        // 计算原始Ergun方程
     v0 = (-B0 + sqrt(B0 * B0 - 4 * A0 * C0)) / (2 * A0);
     // 计算弹性修正Ergun方程
     v1 = (-B1 + sqrt(B1 * B1 - 4 * A1 * C1)) / (2 * A1);
@@ -97,11 +97,14 @@ int main()
     std::vector<double>C0s(dPNum0);
     double* phi0s = new double[e0Num];
 
-    eggp::Eggplot curvePlot0(SCREEN|PNG);
+    eggp::Eggplot curvePlot0(SCREEN | PNG);
     curvePlot0.xlabel("{/Symbol D}P");
     curvePlot0.ylabel("v_0");
     curvePlot0.grid(true);
     curvePlot0.name("01");
+    curvePlot0.title("v_0 changing with {/Symbol D}P in different {/Symbol e}_0");
+//    curvePlot0.keySet("box");
+    //curvePlot0.title({"{/Symbol e}0_0.3", "{/Symbol e}0_0.5", "{/Symbol e}0_0.7", "{/Symbol e}0_0.9"});
     
     for (int i = 1; i < e0Num + 1; i++)
     {
@@ -142,6 +145,7 @@ int main()
     curvePlot1.ylabel("v");
     curvePlot1.grid(true);
     curvePlot1.name("02");
+    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.3" );
     for (int i = 1; i < e1Num + 1; i++)
     {
         double e0s = 0.1 + 0.2 * i;

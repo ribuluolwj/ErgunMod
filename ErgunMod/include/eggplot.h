@@ -48,6 +48,8 @@ public:
     void print(const std::string &filenameExport);
     void exec(bool run_gnuplot=true);
     void name(const std::string &filenameMiddle);
+//    void keyCenter(const std::string &keyCenter);
+//    void keySet(const std::string &key);
 
 private:
     std::string filenamePrefix;
@@ -64,6 +66,9 @@ private:
     unsigned nCurve;
     bool isGridded;
     std::string filenameExport;
+    std::string keyCenter;
+//    std::string keyBox;
+//    std::string key;
 
     bool flagScreen;
     bool flagHtml;

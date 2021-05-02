@@ -13,21 +13,22 @@ using namespace std;
 namespace eggp {
 
 
-Eggplot::Eggplot(unsigned mode)
-    : filenamePrefix("eggp"),
-      filenameMiddle("01"),
-      labelX(),
-      labelY(),
-      labelTitle(),
-      legendVec(0),
-      lineSpecInput(),
-      lineSpec(),
-      lineSpecAqua(),
-      lineSpecCanvas(),
-      lineSpecOther(),
-      nCurve(0),
-      isGridded(false),
-      filenameExport("eggp-export")
+    Eggplot::Eggplot(unsigned mode)
+        : filenamePrefix("eggp"),
+        filenameMiddle("01"),
+//        key("box"),
+        labelX(),
+        labelY(),
+        labelTitle(),
+        legendVec(0),
+        lineSpecInput(),
+        lineSpec(),
+        lineSpecAqua(),
+        lineSpecCanvas(),
+        lineSpecOther(),
+        nCurve(0),
+        isGridded(false),
+        filenameExport("eggp-export")
 {
     //* Test if terminal exists
     this->existsAqua   = this->existsTerminal("aqua");
@@ -94,6 +95,12 @@ void Eggplot::grid(bool flag)
 {
     this->isGridded = flag;
 }
+
+//void Eggplot::key(std::string keyBox)
+//{
+//    this->key = keyBox;
+//}
+
 
 void Eggplot::plot(initializer_list<DataVector> il)
 {
@@ -178,7 +185,6 @@ void Eggplot::exec(bool run_gnuplot)
         gpSvg(run_gnuplot);
     }
 }
-
 
 bool Eggplot::existsTerminal(string terminalName)
 {
@@ -456,7 +462,3 @@ void Eggplot::gpCurve(ofstream &fout, const string &filename, bool run_gnuplot)
 }
 
 }
-
-
-
-
