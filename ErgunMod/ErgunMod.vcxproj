@@ -83,7 +83,8 @@
     <SourcePath>D:\RPgit\CODE\ErgunMod\ErgunMod\Src;G:\NewCode\ErgunMod\ErgunMod\Src;$(SourcePath)</SourcePath>
     <ReferencePath>D:\RPgit\CODE\ErgunMod\ErgunMod\Include;G:\NewCode\ErgunMod\ErgunMod\Include;G:\NewCode\ErgunMod\ErgunMod\Src;$(ReferencePath)</ReferencePath>
     <IncludePath>D:\RPgit\CODE\ErgunMod\ErgunMod\Include;G:\NewCode\ErgunMod\ErgunMod\Include;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)ErgunMod\Build\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)ErgunMod\Release\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Build\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

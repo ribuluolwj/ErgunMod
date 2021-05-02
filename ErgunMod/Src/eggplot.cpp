@@ -261,7 +261,7 @@ void Eggplot::gpPng(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
     string filename = this->filenamePrefix+"_"+filenameMiddle+"-png.gp";
-    string filenameExport = this->filenameExport+".png";
+    string filenameExport = this->filenameExport+"_"+filenameMiddle+".png";
     ofstream fout(filename.c_str());
 
     gpHeader(fout);
@@ -298,7 +298,7 @@ void Eggplot::gpEps(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
     string filename = this->filenamePrefix+"_"+filenameMiddle+"-eps.gp";
-    string filenameExport = this->filenameExport+".eps";
+    string filenameExport = this->filenameExport+"_"+filenameMiddle+".eps";
     ofstream fout(filename.c_str());
 
     gpHeader(fout);
@@ -338,7 +338,7 @@ void Eggplot::gpPdf(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
     string filename = this->filenamePrefix+"_"+filenameMiddle+"-pdf.gp";
-    string filenameExport = this->filenameExport+".pdf";
+    string filenameExport = this->filenameExport+"_"+filenameMiddle+".pdf";
     ofstream fout(filename.c_str());
 
     gpHeader(fout);
@@ -364,7 +364,7 @@ void Eggplot::gpHtml(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
     string filename = this->filenamePrefix+"_"+filenameMiddle+"-html.gp";
-    string filenameExport = this->filenameExport+".html";
+    string filenameExport = this->filenameExport+"_"+filenameMiddle+".html";
     ofstream fout(filename.c_str());
 
     gpHeader(fout);
@@ -390,7 +390,7 @@ void Eggplot::gpSvg(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
     string filename = this->filenamePrefix+"_"+filenameMiddle+"-svg.gp";
-    string filenameExport = this->filenameExport+".svg";
+    string filenameExport = this->filenameExport+"_"+filenameMiddle+".svg";
     ofstream fout(filename.c_str());
 
     gpHeader(fout);
