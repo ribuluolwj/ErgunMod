@@ -47,9 +47,11 @@ public:
     void plot(std::initializer_list<DataVector> il);
     void print(const std::string &filenameExport);
     void exec(bool run_gnuplot=true);
+    void name(const std::string &filenameMiddle);
 
 private:
     std::string filenamePrefix;
+    std::string filenameMiddle; // Defined by program
     std::string labelX;
     std::string labelY;
     std::string labelTitle;

@@ -15,6 +15,7 @@ namespace eggp {
 
 Eggplot::Eggplot(unsigned mode)
     : filenamePrefix("eggp"),
+      filenameMiddle("01"),
       labelX(),
       labelY(),
       labelTitle(),
@@ -105,7 +106,7 @@ void Eggplot::plot(initializer_list<DataVector> il)
     }
 
     //* check if columns are of equal lengths
-    ofstream fout( (this->filenamePrefix + string(".dat")).c_str() );
+    ofstream fout( (this->filenamePrefix + "_"+ filenameMiddle + string(".dat")).c_str() );
     this->nCurve = 0;
     for (auto it=il.begin(); it!=il.end(); ++it) {
         auto itEven = it++;
@@ -127,6 +128,10 @@ void Eggplot::plot(initializer_list<DataVector> il)
 void Eggplot::print(const string &filenameExport)
 {
     this->filenameExport = filenameExport;
+}
+void Eggplot::name(const string &filenameMiddle)
+{
+    this->filenameMiddle = filenameMiddle;
 }
 
 void Eggplot::exec(bool run_gnuplot)
@@ -213,7 +218,7 @@ void foutGridSetting(ofstream &fout, TerminalType tt) {
 void Eggplot::gpScreen(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
-    string filename = this->filenamePrefix+".gp";
+    string filename = this->filenamePrefix+"_"+filenameMiddle+".gp";
     ofstream fout(filename.c_str());
 
     gpHeader(fout);
@@ -255,7 +260,7 @@ void Eggplot::gpScreen(bool run_gnuplot)
 void Eggplot::gpPng(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
-    string filename = this->filenamePrefix+"-png.gp";
+    string filename = this->filenamePrefix+"_"+filenameMiddle+"-png.gp";
     string filenameExport = this->filenameExport+".png";
     ofstream fout(filename.c_str());
 
@@ -292,7 +297,7 @@ void Eggplot::gpPng(bool run_gnuplot)
 void Eggplot::gpEps(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
-    string filename = this->filenamePrefix+"-eps.gp";
+    string filename = this->filenamePrefix+"_"+filenameMiddle+"-eps.gp";
     string filenameExport = this->filenameExport+".eps";
     ofstream fout(filename.c_str());
 
@@ -332,7 +337,7 @@ void Eggplot::gpEps(bool run_gnuplot)
 void Eggplot::gpPdf(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
-    string filename = this->filenamePrefix+"-pdf.gp";
+    string filename = this->filenamePrefix+"_"+filenameMiddle+"-pdf.gp";
     string filenameExport = this->filenameExport+".pdf";
     ofstream fout(filename.c_str());
 
@@ -358,7 +363,7 @@ void Eggplot::gpPdf(bool run_gnuplot)
 void Eggplot::gpHtml(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
-    string filename = this->filenamePrefix+"-html.gp";
+    string filename = this->filenamePrefix+"_"+filenameMiddle+"-html.gp";
     string filenameExport = this->filenameExport+".html";
     ofstream fout(filename.c_str());
 
@@ -384,7 +389,7 @@ void Eggplot::gpHtml(bool run_gnuplot)
 void Eggplot::gpSvg(bool run_gnuplot)
 {
     //* Generate gnuplot batch file
-    string filename = this->filenamePrefix+"-svg.gp";
+    string filename = this->filenamePrefix+"_"+filenameMiddle+"-svg.gp";
     string filenameExport = this->filenameExport+".svg";
     ofstream fout(filename.c_str());
 
@@ -430,7 +435,7 @@ void Eggplot::gpCurve(ofstream &fout, const string &filename, bool run_gnuplot)
 
     for (unsigned i=0; i<this->nCurve; ++i) {
 
-        string filename = this->filenamePrefix+".dat";
+        string filename = this->filenamePrefix+"_"+filenameMiddle+".dat";
         fout << "'" << filename << "' index " << i
              << " title '" << this->legendVec[i]
              << "' with ";
@@ -448,10 +453,7 @@ void Eggplot::gpCurve(ofstream &fout, const string &filename, bool run_gnuplot)
     if (run_gnuplot) {
         system(("gnuplot "+filename).c_str());
     }
-
 }
-
-
 
 }
 

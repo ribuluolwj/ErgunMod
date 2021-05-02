@@ -26,7 +26,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\MatPlot.h">
+    <ClInclude Include="include\MatPlot.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\eggplot.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\linespec.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\chebyshev.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

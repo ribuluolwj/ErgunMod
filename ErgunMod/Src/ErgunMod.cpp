@@ -101,6 +101,7 @@ int main()
     curvePlot0.xlabel("{/Symbol D}P");
     curvePlot0.ylabel("v_0");
     curvePlot0.grid(true);
+    
     for (int i = 1; i < e0Num + 1; i++)
     {
         double e0s = 0.1 + 0.2 * i;

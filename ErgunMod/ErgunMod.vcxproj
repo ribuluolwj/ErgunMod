@@ -81,8 +81,9 @@
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>D:\RPgit\CODE\ErgunMod\ErgunMod\Lib;G:\NewCode\ErgunMod\ErgunMod\Lib;$(LibraryPath)</LibraryPath>
     <SourcePath>D:\RPgit\CODE\ErgunMod\ErgunMod\Src;G:\NewCode\ErgunMod\ErgunMod\Src;$(SourcePath)</SourcePath>
-    <ReferencePath>D:\RPgit\CODE\ErgunMod\ErgunMod\include;G:\NewCode\ErgunMod\ErgunMod\include;G:\NewCode\ErgunMod\ErgunMod\Src;$(ReferencePath)</ReferencePath>
-    <IncludePath>D:\RPgit\CODE\ErgunMod\ErgunMod\include;G:\NewCode\ErgunMod\ErgunMod\include;$(IncludePath)</IncludePath>
+    <ReferencePath>D:\RPgit\CODE\ErgunMod\ErgunMod\Include;G:\NewCode\ErgunMod\ErgunMod\Include;G:\NewCode\ErgunMod\ErgunMod\Src;$(ReferencePath)</ReferencePath>
+    <IncludePath>D:\RPgit\CODE\ErgunMod\ErgunMod\Include;G:\NewCode\ErgunMod\ErgunMod\Include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)ErgunMod\Build\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -151,7 +152,11 @@
     <ClCompile Include="Src\linespec.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\MatPlot.h" />
+    <ClInclude Include="include\chebyshev.h" />
+    <ClInclude Include="include\common.h" />
+    <ClInclude Include="include\eggplot.h" />
+    <ClInclude Include="include\linespec.h" />
+    <ClInclude Include="include\MatPlot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
