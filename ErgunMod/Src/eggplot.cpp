@@ -275,6 +275,7 @@ void Eggplot::gpPng(bool run_gnuplot)
     //* Set terminal and line style
     if (existsCairo) {
         fout << "set terminal pngcairo dashed enhanced" << endl;
+        fout << "set term pngcairo size 1920,1080" << endl;
         fout << "set output '" << filenameExport << "'" << endl;
         if (this->isGridded) {
             foutGridSetting(fout, TERM_CAIRO);
@@ -430,9 +431,12 @@ void Eggplot::gpCurve(ofstream &fout, const string &filename, bool run_gnuplot)
 {
     fout << "set style increment userstyle" << endl;
     fout << "set autoscale" << endl;
+    fout << "set key box" << endl;
+    fout << "set key left" << endl;
     fout << "unset log" << endl;
     fout << "unset label" << endl;
     fout << "set xtic auto" << endl;
+//    fout << "set xtic \"" <<  << "\"" << endl;
     fout << "set ytic auto" << endl;
     fout << "set title \"" << this->labelTitle << "\"" << endl;
     fout << "set xlabel \"" << this->labelX << "\"" << endl;

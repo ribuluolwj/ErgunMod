@@ -97,14 +97,13 @@ int main()
     std::vector<double>C0s(dPNum0);
     double* phi0s = new double[e0Num];
 
-    eggp::Eggplot curvePlot0(SCREEN | PNG);
-    curvePlot0.xlabel("{/Symbol D}P");
-    curvePlot0.ylabel("v_0");
+    eggp::Eggplot curvePlot0(SCREEN | PNG | EPS | PDF);
+    curvePlot0.xlabel("{/Symbol D}P(kPa)");
+    curvePlot0.ylabel("v_0(m/s)");
     curvePlot0.grid(true);
     curvePlot0.name("01");
     curvePlot0.title("v_0 changing with {/Symbol D}P in different {/Symbol e}_0");
-//    curvePlot0.keySet("box");
-    //curvePlot0.title({"{/Symbol e}0_0.3", "{/Symbol e}0_0.5", "{/Symbol e}0_0.7", "{/Symbol e}0_0.9"});
+    curvePlot0.legend({ "{/Symbol e}_0 = 0.3", "{/Symbol e}_0 = 0.5", "{/Symbol e}_0 = 0.7", "{/Symbol e}_0 = 0.9"});
     
     for (int i = 1; i < e0Num + 1; i++)
     {
@@ -123,8 +122,6 @@ int main()
         }
     }
     curvePlot0.plot({ DeltaPs0[0], v0s0[0], DeltaPs0[1], v0s0[1], DeltaPs0[2], v0s0[2], DeltaPs0[3], v0s0[3]});
-    //curvePlot0.legend({ "{/Symbol 1}=1",
-    //                   "{/Symbol 1}=4" });
     curvePlot0.exec();
     DeltaPs0.clear();
     v0s0.clear();
@@ -140,12 +137,13 @@ int main()
     std::vector<double>C1s(dPNum1);
     double* phi1s = new double[e1Num];
 
-    eggp::Eggplot curvePlot1(SCREEN|PNG);
-    curvePlot1.xlabel("{/Symbol D}P");
-    curvePlot1.ylabel("v");
+    eggp::Eggplot curvePlot1(SCREEN | PNG | EPS | PDF);
+    curvePlot1.xlabel("{/Symbol D}P(kPa)");
+    curvePlot1.ylabel("v(m/s)");
     curvePlot1.grid(true);
     curvePlot1.name("02");
     curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.3" );
+    curvePlot1.legend({ "  v_0", "  v_1"});
     for (int i = 1; i < e1Num + 1; i++)
     {
         double e0s = 0.1 + 0.2 * i;
@@ -173,10 +171,20 @@ int main()
                       << v0s1[i - 1][j - 1] << "\t" << "v1 " << ":  " << v1s[i - 1][j - 1] << endl;
         }
     }
-    //curvePlot1.plot({ DeltaPs1[0], v0s1[0], DeltaPs1[0], v1s[0], DeltaPs1[1], v0s1[1], DeltaPs1[1], v1s[1], DeltaPs1[2], v0s1[2], DeltaPs1[2], v1s[2] });
     curvePlot1.plot({ DeltaPs1[0], v0s1[0], DeltaPs1[0], v1s[0] });
     curvePlot1.exec();
-
+    curvePlot1.name("03");
+    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.5" );
+    curvePlot1.plot({ DeltaPs1[1], v0s1[1], DeltaPs1[1], v1s[1] });
+    curvePlot1.exec();
+    curvePlot1.name("04");
+    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.7" );
+    curvePlot1.plot({ DeltaPs1[2], v0s1[2], DeltaPs1[2], v1s[2] });
+    curvePlot1.exec();
+    curvePlot1.name("05");
+    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.9" );
+    curvePlot1.plot({ DeltaPs1[3], v0s1[3], DeltaPs1[3], v1s[3] });
+    curvePlot1.exec();
 
 
 
