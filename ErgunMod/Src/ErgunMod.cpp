@@ -194,8 +194,6 @@ int main()
     C1s.clear();
 
     // 计算原Ergun方程与粘弹性修正Ergun方程速度与压差v1-deltaP-e1关系
-//    int dPNum1; // 压差取点数
-//    int e0Num; // 孔隙率变化取点数
     dPNum0 = 14;
     e0Num = 4;
     std::vector<std::vector<double> >DeltaPs2(e0Num, std::vector<double>(dPNum0));
