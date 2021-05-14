@@ -41,7 +41,7 @@ int main()
     L1 -- 平衡厚度    e1 -- 平衡孔隙度    e1x -- 平衡时刻x处的孔隙度
     Es -- 多孔介质弹性模量    D1 -- 平衡纤维当量直径
     ---------------------------------------------------------------------------*/
-    double L1 = (1 - DeltaP / Es) * L0; // m
+    double L1 = (1 - DeltaP / Es) * L0; // m 胡克定律
     double e1 = 1 - (1 - e0) * L0 / L1;
     double D1 = D0 * L1 / L0; // m
 
@@ -83,10 +83,10 @@ int main()
     double vChange = (abs(v1) - v0) / v0 * 100;
     std::cout << "v0:  " << v0 << "\t" << "v1:  " << v1 << "\t" << "m/s" << "\t" << vChange << "\t" << "%" << endl;
 
-    // 画图
+    // 原Ergun方程画图
     // 计算v0-deltaP-e0关系
-    int dPNum0; // delta pressure data points number
-    int e0Num; // e0 number
+    int dPNum0; // 压差取点数
+    int e0Num; // 孔隙率变化取点数
     dPNum0 = 14;
     e0Num = 4;
     std::vector<std::vector<double> >DeltaPs0(e0Num, std::vector<double>(dPNum0));
@@ -98,8 +98,8 @@ int main()
     curvePlot0.xlabel("{/Symbol D}P(kPa)");
     curvePlot0.ylabel("v_0(m/s)");
     curvePlot0.grid(true);
-    curvePlot0.name("01");
-    curvePlot0.title("v_0 changing with {/Symbol D}P in different {/Symbol e}_0");
+    curvePlot0.name("R01");
+    curvePlot0.title("v_0 changing with {/Symbol D}P in different {/Symbol e}_0 and rigid body assumption");
     curvePlot0.legend({ "{/Symbol e}_0 = 0.3", "{/Symbol e}_0 = 0.5", "{/Symbol e}_0 = 0.7", "{/Symbol e}_0 = 0.9"});
     
     for (int i = 1; i < e0Num + 1; i++)
@@ -119,13 +119,15 @@ int main()
         }
     }
     curvePlot0.plot({ DeltaPs0[0], v0s0[0], DeltaPs0[1], v0s0[1], DeltaPs0[2], v0s0[2], DeltaPs0[3], v0s0[3]});
+    std::cout << "Fig1\n" << endl;
     curvePlot0.exec();
     DeltaPs0.clear();
     v0s0.clear();
+    
 
-    // 计算v0-v1-deltaP关系
-    int dPNum1; // delta pressure data points number
-    int e1Num; // e0 number
+    // 计算原Ergun方程与线弹性修正后的速度与压差v0-v1-deltaP关系
+    int dPNum1; // 压差取点数
+    int e1Num; // 孔隙率变化取点数
     dPNum1 = 14;
     e1Num = 4;
     std::vector<std::vector<double> >DeltaPs1(e1Num, std::vector<double>(dPNum1));
@@ -138,8 +140,8 @@ int main()
     curvePlot1.xlabel("{/Symbol D}P(kPa)");
     curvePlot1.ylabel("v(m/s)");
     curvePlot1.grid(true);
-    curvePlot1.name("02");
-    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.3" );
+    curvePlot1.name("L02");
+    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.3 and linear elasticity assumption" );
     curvePlot1.legend({ "  v_0", "  v_1"});
     for (int i = 1; i < e1Num + 1; i++)
     {
@@ -169,25 +171,73 @@ int main()
         }
     }
     curvePlot1.plot({ DeltaPs1[0], v0s1[0], DeltaPs1[0], v1s[0] });
+    std::cout << "Fig2\n" << endl;
     curvePlot1.exec();
-    curvePlot1.name("03");
-    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.5" );
+    curvePlot1.name("L03");
+    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.5 and linear elasticity assumption" );
     curvePlot1.plot({ DeltaPs1[1], v0s1[1], DeltaPs1[1], v1s[1] });
+    std::cout << "Fig3\n" << endl;
     curvePlot1.exec();
-    curvePlot1.name("04");
-    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.7" );
+    curvePlot1.name("L04");
+    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.7 and linear elasticity assumption" );
     curvePlot1.plot({ DeltaPs1[2], v0s1[2], DeltaPs1[2], v1s[2] });
+    std::cout << "Fig4\n" << endl;
     curvePlot1.exec();
-    curvePlot1.name("05");
-    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.9" );
+    curvePlot1.name("L05");
+    curvePlot1.title("v_0 and v_1 changing with {/Symbol D}P in {/Symbol e}_0=0.9 and linear elasticity assumption" );
     curvePlot1.plot({ DeltaPs1[3], v0s1[3], DeltaPs1[3], v1s[3] });
+    std::cout << "Fig5\n" << endl;
     curvePlot1.exec();
+    DeltaPs1.clear();
+    v0s1.clear();
+    v1s.clear();
+    C1s.clear();
+
+    // 计算原Ergun方程与粘弹性修正Ergun方程速度与压差v1-deltaP-e1关系
+//    int dPNum1; // 压差取点数
+//    int e0Num; // 孔隙率变化取点数
+    dPNum0 = 14;
+    e0Num = 4;
+    std::vector<std::vector<double> >DeltaPs2(e0Num, std::vector<double>(dPNum0));
+    std::vector<std::vector<double> >v0s2(e0Num, std::vector<double>(dPNum0));
+    std::vector<double>C1s1(dPNum0);
+    double* phi2s = new double[e0Num];
+
+    eggp::Eggplot curvePlot3(SCREEN | PNG | EPS | PDF);
+    curvePlot3.xlabel("{/Symbol D}P(kPa)");
+    curvePlot3.ylabel("v_0(m/s)");
+    curvePlot3.grid(true);
+    curvePlot3.name("V06");
+    curvePlot3.title("v_0 changing with {/Symbol D}P in different {/Symbol e}_0 and viscoelasticity assumption");
+    curvePlot3.legend({ "{/Symbol e}_0 = 0.3", "{/Symbol e}_0 = 0.5", "{/Symbol e}_0 = 0.7", "{/Symbol e}_0 = 0.9"});
+    
+    for (int i = 1; i < e0Num + 1; i++)
+    {
+//        double e0s = 0.1 + 0.2 * i;
+//        phi2s[i-1] = (1 + e0s) / e0s;
+//        double A0s = k2 * phi2s[i - 1] * rhoL / D0 / g;
+//        double B0s = k1 * phi2s[i - 1] * phi2s[i - 1] * mu / (D0 * D0) / g;
+//
+        for (int j = 1; j < dPNum0 + 1; j++)
+        {
+//            DeltaPs0[i - 1][j - 1] = (Pin - j * 5000.0)/1000.0; //  转换成kPa
+//            C1s1[j - 1] = -DeltaPs0[i - 1][j - 1] * 1000.0/ L0; //  运算中转换成Pa
+//            v0s2[i - 1][j - 1] = ((-B0s + sqrt(B0s * B0s - 4 * A0s * C1s1[j - 1])) / (2 * A0s));
+//            std::cout << "e0:  " << e0s << "\t" << "DeltaP " << j << ":  " << DeltaPs0[i - 1][j - 1] << "\t" << "v0 " << ":  " 
+//                      << v0s2[i - 1][j - 1] <<  endl;
+        }
+    }
+//    curvePlot3.plot({ DeltaPs0[0], v0s2[0], DeltaPs0[1], v0s2[1], DeltaPs0[2], v0s2[2], DeltaPs0[3], v0s2[3]});
+    std::cout << "Fig6\n" << endl;
+    curvePlot3.exec();
+    DeltaPs2.clear();
+    v0s2.clear();
 
 
-
-    Sleep(60000);
+    Sleep(4000);
     delete[] phi0s;
     delete[] phi1s;
+    delete[] phi2s;
 
   return 0;
 }
