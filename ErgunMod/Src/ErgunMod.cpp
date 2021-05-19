@@ -84,7 +84,7 @@ int main()
     std::cout << "v0:  " << v0 << "\t" << "v1:  " << v1 << "\t" << "m/s" << "\t" << vChange << "\t" << "%" << endl;
 
     // 原Ergun方程画图
-    // 计算v0-deltaP-e0关系
+    // 计算Y:v0-X:deltaP-[e0]关系
     int dPNum0; // 压差取点数
     int e0Num; // 孔隙率变化取点数
     dPNum0 = 14;
@@ -125,7 +125,7 @@ int main()
     v0s0.clear();
     
 
-    // 计算原Ergun方程与线弹性修正后的速度与压差v0-v1-deltaP关系
+    // 计算原Ergun方程与线弹性修正后的速度与压差Y:v-X:deltaP-[v0-v1]-e0关系
     int dPNum1; // 压差取点数
     int e1Num; // 孔隙率变化取点数
     dPNum1 = 14;
@@ -193,7 +193,7 @@ int main()
     v1s.clear();
     C1s.clear();
 
-    // 计算原Ergun方程与粘弹性修正Ergun方程速度与压差v1-deltaP-e1关系
+    // 计算原Ergun方程与粘弹性修正Ergun方程速度与压差Y:v-X:deltaP-[v0-v1]-e0关系
     dPNum0 = 14;
     e0Num = 4;
     std::vector<std::vector<double> >DeltaPs2(e0Num, std::vector<double>(dPNum0));
