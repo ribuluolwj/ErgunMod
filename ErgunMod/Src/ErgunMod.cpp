@@ -79,7 +79,7 @@ int main()
     v0 = (-B0 + sqrt(B0 * B0 - 4 * A0 * C0)) / (2 * A0);
     // 计算弹性修正Ergun方程
     v1 = (-B1 + sqrt(B1 * B1 - 4 * A1 * C1)) / (2 * A1);
-    // 计算弹性修正Ergun方程相对变化率
+    // 计算线弹性修正Ergun方程相对变化率
     double vChange = (abs(v1) - v0) / v0 * 100;
     std::cout << "v0:  " << v0 << "\t" << "v1:  " << v1 << "\t" << "m/s" << "\t" << vChange << "\t" << "%" << endl;
 
