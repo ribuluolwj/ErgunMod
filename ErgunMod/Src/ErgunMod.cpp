@@ -8,8 +8,32 @@
 using namespace std;
 using namespace eggp;
 
+class PorousMedia
+{
+public:
+    double PMlength;
+    double PMporousR;
+    double PMelasticM;
+    double PMfibreD;
+};
+class Fluid
+{
+public:
+    double Fdensity;
+    double Fviscosity;
+};
 int main()
 {
+    // 设置多孔介质实验测量参数
+    /*---------------------------------------------------------------------------
+    W0 -- 纸幅克重    FD -- 纤维直径    e0x -- 初始时刻x处的孔隙度
+    Es -- 多孔介质弹性模量    D0 -- 初始纤维当量直径
+    k1 -- 粘性项系数    k2 -- 惯性项系数
+    ---------------------------------------------------------------------------*/
+    double fibermatWeight = 127e-3; // g/m2
+    double fiberDiameter = 2.2e-3; // m
+    double fiberDensity = 2e-3; // kg/m3
+
     // 设置多孔介质初始物性参数
     /*---------------------------------------------------------------------------
     L0 -- 初始厚度    e0 -- 初始孔隙度    e0x -- 初始时刻x处的孔隙度
@@ -65,15 +89,15 @@ int main()
     double B1 = k1 * phi1 * phi1 * mu / (D1 * D1) / g;
     double C1 = -DeltaP / L1;
 
-    //    // 设置弹性修正Ergun方程中间变量
-    //    /*---------------------------------------------------------------------------
-    //    phi0 -- (1+e0)/e0    A0 -- 弹性修正Ergun方程二次项系数
-    //    B0 -- 弹性修正Ergun方程一次项系数    C0 -- 弹性修正Ergun方程常数项
-    //    ---------------------------------------------------------------------------*/
-    //    double phi1 = (1 + e0) / (e0 - DeltaP / Es);
-    //    double A1 = k2 * phi0 * rhoL / D0 / g;
-    //    double B1 = k1 * phi0 * phi0 * mu / (D0 * D0) / g / (1- DeltaP / Es);
-    //    double C1 = -DeltaP / L0;
+    // 设置弹性修正Ergun方程中间变量
+    /*---------------------------------------------------------------------------
+    phi0 -- (1+e0)/e0    A0 -- 弹性修正Ergun方程二次项系数
+    B0 -- 弹性修正Ergun方程一次项系数    C0 -- 弹性修正Ergun方程常数项
+    ---------------------------------------------------------------------------*/
+    double phi2 = (1 + e0) / (e0 - DeltaP / Es);
+    double A2 = k2 * phi0 * rhoL / D0 / g;
+    double B2 = k1 * phi0 * phi0 * mu / (D0 * D0) / g / (1- DeltaP / Es);
+    double C2 = -DeltaP / L0;
 
     // 计算原始Ergun方程
     v0 = (-B0 + sqrt(B0 * B0 - 4 * A0 * C0)) / (2 * A0);
