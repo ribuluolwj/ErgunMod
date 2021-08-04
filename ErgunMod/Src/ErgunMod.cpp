@@ -30,7 +30,7 @@ int main()
     Es -- 多孔介质弹性模量    D0 -- 初始纤维当量直径
     k1 -- 粘性项系数    k2 -- 惯性项系数
     ---------------------------------------------------------------------------*/
-    double fibermatWeight = 127e-3; // g/m2
+    double basisWeight = 127e-3; // g/m2
     double fiberDiameter = 2.2e-3; // m
     double fiberDensity = 2e-3; // kg/m3
 
