@@ -82,6 +82,7 @@ int main()
     double ReynoldsInit;
 
 
+
     thickInit = basisWeight * dryContentFinal / (1.0 - porosityInit) * (1.0 / cellDensity + (1.0 - dryContentInit) / waterDensity / dryContentInit);
     // 设置变量关系公式
     /*---------------------------------------------------------------------------
